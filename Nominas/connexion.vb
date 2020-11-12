@@ -20,6 +20,24 @@ Public Class connexion
         conexion.Close()
     End Sub
 
+    Public Function mostrar_empresas() As DataTable
+        Try
+            conectar()
+            Dim cmd As SqlCommand = New SqlCommand("sp_mostrar_empresas", conexion)
+            cmd.CommandType = CommandType.StoredProcedure
+
+            Dim data As DataSet = New DataSet
+
+            adaptador.SelectCommand = cmd
+            adaptador.Fill(tabla)
+
+            Return tabla
+
+        Catch ex As Exception
+
+        End Try
+    End Function
+
     Public Function iniciar_sesion(No_empleado As Integer, contrasenia As String) As Boolean
         Dim estado As Boolean
         Dim table As New DataTable
@@ -110,6 +128,22 @@ Public Class connexion
         Return True
     End Function
 
+    Public Function cargar_estados(estados As ComboBox) As Boolean
+        Dim status As Boolean
+        Dim qry As String = "Select estado from Estado"
+        Try
+            conectar()
+            Dim cmd As SqlDataAdapter = New SqlDataAdapter(qry, conexion)
+            Dim data As DataSet = New DataSet()
+            cmd.Fill(data)
+            estados.DataSource = data.Tables(0)
+            estados.DisplayMember = "Estado"
+            estados.ValueMember = "clave_estado"
+        Catch ex As Exception
+
+        End Try
+    End Function
+
     Public Function insertar_empresa(empresa As Empresa) As Boolean
         Dim status As Boolean = True
         Try
@@ -154,7 +188,114 @@ Public Class connexion
 
     End Function
 
+    Private Function insertar_persona(persona As gerenteNomina) As Boolean
+        Dim state As Boolean
+        Try
+            conectar()
+            Dim cmd As SqlCommand = New SqlCommand("sp_insertar_persona_gerente", conexion)
+            cmd.CommandType = CommandType.StoredProcedure
+
+            Dim curp As SqlParameter = cmd.Parameters.Add("@CURP", SqlDbType.VarChar, 20)
+            curp.Value = persona.persona.CURP
+
+            Dim rfc As SqlParameter = cmd.Parameters.Add("@RFC", SqlDbType.VarChar, 20)
+            rfc.Value = persona.RFC
+
+            Dim nombre As SqlParameter = cmd.Parameters.Add("@nombre", SqlDbType.VarChar, 20)
+            nombre.Value = persona.persona.nombre
+
+            Dim apellido As SqlParameter = cmd.Parameters.Add("@apellido", SqlDbType.VarChar, 20)
+            apellido.Value = persona.persona.apellido
+
+            Dim fecha As Date = Date.Now()
+
+            Dim fechaNacim As SqlParameter = cmd.Parameters.Add("@fehcaNacim", SqlDbType.Date, 20)
+            fechaNacim.Value = fecha
+
+            Dim calle As SqlParameter = cmd.Parameters.Add("@calle_p", SqlDbType.VarChar, 20)
+            calle.Value = persona.domicilio.calle
+
+            Dim colonia As SqlParameter = cmd.Parameters.Add("@colonia_p", SqlDbType.VarChar, 20)
+            colonia.Value = persona.domicilio.colonia
+
+            conexion.Open()
+            adaptador.InsertCommand = cmd
+            cmd.ExecuteNonQuery()
+
+            state = True
+
+        Catch ex As SqlException
+            MessageBox.Show(ex.ToString)
+        Finally
+            desconectar()
+        End Try
+    End Function
+
+    Private Function insertar_domicilio_persona(domicilio As Domicilio)
+        Dim state As Boolean = False
+        Try
+            conectar()
+            Dim cmd As SqlCommand = New SqlCommand("sp_insertar_domicilio", conexion)
+            cmd.CommandType = CommandType.StoredProcedure
+
+            Dim codigoPostal As SqlParameter = cmd.Parameters.Add("@codigoPostal", SqlDbType.Int, 8)
+            codigoPostal.Value = domicilio.codigoPostal
+
+            Dim estado As SqlParameter = cmd.Parameters.Add("@estado", SqlDbType.VarChar, 20)
+            estado.Value = domicilio.estado
+
+            Dim municipio As SqlParameter = cmd.Parameters.Add("@municipio", SqlDbType.VarChar, 20)
+            municipio.Value = domicilio.municipio
+
+            Dim calle As SqlParameter = cmd.Parameters.Add("@calle", SqlDbType.VarChar, 20)
+            calle.Value = domicilio.calle
+
+            Dim colonia As SqlParameter = cmd.Parameters.Add("@colonia", SqlDbType.VarChar, 20)
+            colonia.Value = domicilio.colonia
+
+            Dim opcion As SqlParameter = cmd.Parameters.Add("@OPC", SqlDbType.Char, 13)
+            opcion.Value = "Persona"
+
+            state = True
+
+            conexion.Open()
+            adaptador.InsertCommand = cmd
+            cmd.ExecuteNonQuery()
+
+        Catch ex As SqlException
+            state = False
+            MessageBox.Show(ex.ToString(), "no se pudo insertar")
+        Finally
+            desconectar()
+        End Try
+
+        Return state
+
+    End Function
+
+    Public Function insertar_persona_gerente(gerente As gerenteNomina) As Boolean
+
+        If Me.insertar_domicilio_persona(gerente.domicilio) = False Then
+            MessageBox.Show("No se pudo insertar la informacion del domicilio\npuede haber informacion duplicada o que ya exista", "No se pudo guardar", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Return False
+        End If
+
+        If Me.insertar_persona(gerente) = False Then
+            MessageBox.Show("No se pudo insertar la informacion personal\npuede haber informacion duplicada o que ya exista", "No se pudo guardar", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Return False
+        End If
+
+        If Me.insertar_gerente_nomina(gerente) = False Then
+            MessageBox.Show("No se pudo insertar la informacion del gerente\npuede haber informacion duplicada o que ya exista", "No se pudo guardar", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Return False
+        End If
+
+        Return True
+
+    End Function
+
     Public Function insertar_gerente_nomina(gerente As gerenteNomina) As Boolean
+        Dim state As Boolean = True
         Try
             conectar()
             Dim cmd As SqlCommand = New SqlCommand("sp_insertar_gerente_nomina", conexion)
@@ -165,72 +306,51 @@ Public Class connexion
 
             'domicilio del gerente
             Dim rfcEmpresa As SqlParameter = cmd.Parameters.Add("@RFC_EMPRESA", SqlDbType.VarChar, 20)
-            rfcEmpresa.Value = gerente.empresa.RFC
+            rfcEmpresa.Value = gerente.empresa
 
             Dim sueldoBase As SqlParameter = cmd.Parameters.Add("@sueldo_base", SqlDbType.Int, 8)
-            sueldoBase.Value = 1500
+            sueldoBase.Value = gerente.sueldoBase
 
-            Dim cantEmpleados As SqlParameter = cmd.Parameters.Add("@cant_empleados", SqlDbType.Int, 2)
+            Dim cantEmpleados As SqlParameter = cmd.Parameters.Add("@cant_empleados", SqlDbType.Int, 8)
             cantEmpleados.Value = 1
 
             Dim curp As SqlParameter = cmd.Parameters.Add("@CURP", SqlDbType.VarChar, 20)
             curp.Value = gerente.persona.CURP
 
-            Dim rfcGerente As SqlParameter = cmd.Parameters.Add("@RFC", SqlDbType.VarChar, 20)
-            cantEmpleados.Value = gerente.RFC
-
-            Dim nombre As SqlParameter = cmd.Parameters.Add("@cant_empleados", SqlDbType.VarChar, 20)
-            nombre.Value = gerente.persona.nombre
-
-            Dim apellidos As SqlParameter = cmd.Parameters.Add("@apellido_p", SqlDbType.VarChar, 20)
-            apellidos.Value = gerente.persona.apellido
-
-            Dim fechaNac As SqlParameter = cmd.Parameters.Add("@fehcaNacim", SqlDbType.Date, 10)
-            fechaNac.Value = "19990524"
-
-            'informacion del domicolio
-            Dim calle As SqlParameter = cmd.Parameters.Add("@calle_e", SqlDbType.VarChar, 20)
-            calle.Value = gerente.domicilio.calle
-
-            Dim colonia As SqlParameter = cmd.Parameters.Add("@colonia_e", SqlDbType.VarChar, 20)
-            colonia.Value = gerente.domicilio.colonia
-
-            Dim municipio As SqlParameter = cmd.Parameters.Add("@municipio_e", SqlDbType.VarChar, 20)
-            municipio.Value = gerente.domicilio.municipio
-
-            Dim codigoPostal As SqlParameter = cmd.Parameters.Add("@codigoPostal_e", SqlDbType.Int, 8)
-            codigoPostal.Value = gerente.domicilio.codigoPostal
-
-            Dim estado As SqlParameter = cmd.Parameters.Add("@estado_e", SqlDbType.VarChar, 20)
-            estado.Value = gerente.domicilio.estado
-
             Dim sueldoEsp As SqlParameter = cmd.Parameters.Add("@sueldo_especifico", SqlDbType.Int, 8)
-            sueldoEsp.Value = 1500
+            sueldoEsp.Value = gerente.salarioDiario + gerente.sueldoBase + gerente.nivelSalarial
 
             Dim nivelSalarial As SqlParameter = cmd.Parameters.Add("@nivelSalarial", SqlDbType.Int, 8)
-            nivelSalarial.Value = 2000
+            nivelSalarial.Value = gerente.nivelSalarial
 
-            Dim noCuenta As SqlParameter = cmd.Parameters.Add("@noCuenta", SqlDbType.Int, 8)
+            Dim salarioDiario As SqlParameter = cmd.Parameters.Add("@salarioDiario", SqlDbType.Int, 8)
+            salarioDiario.Value = gerente.salarioDiario
+
+            Dim noCuenta As SqlParameter = cmd.Parameters.Add("@noCuenta", SqlDbType.VarChar, 50)
             noCuenta.Value = gerente.noCuenta
 
-            Dim NSS As SqlParameter = cmd.Parameters.Add("@NSS", SqlDbType.Int, 8)
+            Dim NSS As SqlParameter = cmd.Parameters.Add("@NSS", SqlDbType.VarChar, 50)
             NSS.Value = gerente.NSS
 
             Dim banco As SqlParameter = cmd.Parameters.Add("@banco", SqlDbType.VarChar, 20)
             banco.Value = gerente.banco
 
-            Dim nomina As SqlParameter = cmd.Parameters.Add("@nomina", SqlDbType.VarChar, 20)
-            nomina.Value = gerente.nomina
+            'Dim nomina As SqlParameter = cmd.Parameters.Add("@nomina", SqlDbType.Int, 8)
+            'nomina.Value = gerente.nomina
 
+            conexion.Open()
             adaptador.InsertCommand = cmd
+            cmd.ExecuteNonQuery()
+
+            state = True
 
         Catch ex As SqlException
             MessageBox.Show(ex.ToString(), "no se pudo insertar gerente")
-            Return False
+            state = False
         Finally
             desconectar()
         End Try
-        Return True
+        Return state
     End Function
 
 End Class

@@ -193,10 +193,11 @@ Partial Class Gerente_General_Nomina
         '
         'PanelHeadcounterReporte
         '
+        Me.PanelHeadcounterReporte.Controls.Add(Me.NominaGeneralPanel)
         Me.PanelHeadcounterReporte.Controls.Add(Me.PuestosGrid)
         Me.PanelHeadcounterReporte.Controls.Add(Me.DepartamentosGrid)
         Me.PanelHeadcounterReporte.Controls.Add(Me.Label1)
-        Me.PanelHeadcounterReporte.Location = New System.Drawing.Point(0, 93)
+        Me.PanelHeadcounterReporte.Location = New System.Drawing.Point(355, 419)
         Me.PanelHeadcounterReporte.Name = "PanelHeadcounterReporte"
         Me.PanelHeadcounterReporte.Size = New System.Drawing.Size(800, 428)
         Me.PanelHeadcounterReporte.TabIndex = 2
@@ -237,6 +238,7 @@ Partial Class Gerente_General_Nomina
         '
         'NominaGeneralPanel
         '
+        Me.NominaGeneralPanel.Controls.Add(Me.PanelGeneralReporte)
         Me.NominaGeneralPanel.Controls.Add(Me.Label2)
         Me.NominaGeneralPanel.Controls.Add(Me.cbReporteFiltro)
         Me.NominaGeneralPanel.Controls.Add(Me.EmpleadosGrid)
@@ -244,7 +246,7 @@ Partial Class Gerente_General_Nomina
         Me.NominaGeneralPanel.Controls.Add(Me.ComboBox2)
         Me.NominaGeneralPanel.Controls.Add(Me.ComboBox1)
         Me.NominaGeneralPanel.Controls.Add(Me.lbEmpresa)
-        Me.NominaGeneralPanel.Location = New System.Drawing.Point(0, 53)
+        Me.NominaGeneralPanel.Location = New System.Drawing.Point(425, 351)
         Me.NominaGeneralPanel.Name = "NominaGeneralPanel"
         Me.NominaGeneralPanel.Size = New System.Drawing.Size(800, 468)
         Me.NominaGeneralPanel.TabIndex = 3
@@ -313,8 +315,9 @@ Partial Class Gerente_General_Nomina
         '
         'PanelGeneralReporte
         '
+        Me.PanelGeneralReporte.Controls.Add(Me.PanelNominaPuesto)
         Me.PanelGeneralReporte.Controls.Add(Me.reporteGeneralGrid)
-        Me.PanelGeneralReporte.Location = New System.Drawing.Point(0, 40)
+        Me.PanelGeneralReporte.Location = New System.Drawing.Point(524, 391)
         Me.PanelGeneralReporte.Name = "PanelGeneralReporte"
         Me.PanelGeneralReporte.Size = New System.Drawing.Size(800, 481)
         Me.PanelGeneralReporte.TabIndex = 4
@@ -338,7 +341,7 @@ Partial Class Gerente_General_Nomina
         Me.PanelNominaPuesto.Controls.Add(Me.cbDepartamento)
         Me.PanelNominaPuesto.Controls.Add(Me.Nomina_departamentos)
         Me.PanelNominaPuesto.Controls.Add(Me.DataGridView1)
-        Me.PanelNominaPuesto.Location = New System.Drawing.Point(0, 33)
+        Me.PanelNominaPuesto.Location = New System.Drawing.Point(484, 112)
         Me.PanelNominaPuesto.Name = "PanelNominaPuesto"
         Me.PanelNominaPuesto.Size = New System.Drawing.Size(800, 488)
         Me.PanelNominaPuesto.TabIndex = 1
@@ -489,9 +492,6 @@ Partial Class Gerente_General_Nomina
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(800, 520)
-        Me.Controls.Add(Me.PanelNominaPuesto)
-        Me.Controls.Add(Me.PanelGeneralReporte)
-        Me.Controls.Add(Me.NominaGeneralPanel)
         Me.Controls.Add(Me.PanelHeadcounterReporte)
         Me.Controls.Add(Me.ListadoGrid)
         Me.Controls.Add(Me.MenuStrip1)

@@ -1,7 +1,15 @@
 ﻿Public Class agregarEmpresa
+
+    Dim Gerente_General As gerenteNomina
+
     Private Sub agregarEmpresa_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         panelBanco.Hide()
-        panelAgregarGerente.Hide()
+        panelAgregarGerente.Enabled = False
+        panelGerenteNomina.Enabled = False
+
+        Dim conn As connexion = New connexion()
+        conn.cargar_estados(cbEstado)
+        conn.cargar_estados(cbEstadoP)
     End Sub
 
     Private Sub lblMunicipio_Click(sender As Object, e As EventArgs) Handles lblMunicipio.Click
@@ -22,54 +30,12 @@
 
     Private Sub btnAceptarInfoP_Click(sender As Object, e As EventArgs) Handles btnAceptarInfoP.Click
 
-        'Dim nuevaPersona As persona = New persona(
-        '        txtCURP.Text,
-        '        txtNomina.Text,
-        '        txtApellidos.Text,
-        '        ""
-        '    )
 
-        'Dim domicilioPersona As Domicilio = New Domicilio(
-        '        txtCalleG.Text,
-        '        txtColoniaG.Text,
-        '        txtMunicipioG.Text,
-        '        Convert.ToDecimal(txtCodigoPostalG.Text),
-        '        txtEstadoG.Text
-        '    )
+        'Dim res As DialogResult = MessageBox.Show("¿Se creara un departamento de para el nuevo gerente?", "Agregar gerente", MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation)
 
-        'Dim gerente As gerenteNomina = New gerenteNomina(
-        '        txtNoCuenta.Text,
-        '        Convert.ToDecimal(txtSalarioD.Text),
-        '        txtNSS.Text,
-        '        cbBanco.Text,
-        '        txtNomina.Text,
-        '        domicilioPersona
-        '    )
-
-        panelAgregarGerente.Enabled = True
-    End Sub
-
-    Private Sub Label1_Click(sender As Object, e As EventArgs) Handles lblFOpreaciones.Click
-
-    End Sub
-
-    Private Sub btnAceptarEmrpesa_Click(sender As Object, e As EventArgs) Handles btnAceptarEmrpesa.Click
-        'aqui vamos a guardar toda la informacion en mis objetos
-        Dim empresaDomicilio As Domicilio = New Domicilio(
-                txtCalle.Text,
-                txtColonia.Text,
-                txtMunicipio.Text,
-                Convert.ToDecimal(txtCodigoPostal.Text),
-                txtEstado.Text
-            )
-
-        Dim nuevaEmpresa As Empresa = New Empresa(
-                txtRazonSocial.Text,
-                txtRegistroPatronal.Text,
-                txtRFC.Text,
-                "",
-                empresaDomicilio
-            )
+        'If res = DialogResult.Cancel Then
+        '    Return
+        'End If
 
         'Dim nuevaPersona As persona = New persona(
         '        txtCURP.Text,
@@ -83,10 +49,10 @@
         '        txtColoniaG.Text,
         '        txtMunicipioG.Text,
         '        Convert.ToDecimal(txtCodigoPostalG.Text),
-        '        txtEstadoG.Text
+        '       cbEstadoP.Text
         '    )
 
-        'Dim gerente As gerenteNomina = New gerenteNomina(
+        'Gerente_General = New gerenteNomina(
         '        txtNoCuenta.Text,
         '        Convert.ToDecimal(txtSalarioD.Text),
         '        txtNSS.Text,
@@ -95,12 +61,60 @@
         '        txtRFCgerente.Text,
         '        domicilioPersona,
         '        nuevaPersona,
-        '        nuevaEmpresa
+        '        txtRFC.Text,
+        '        Convert.ToDecimal(txtSueldoBase),
+        '        Convert.ToDecimal(txtNivelSalarial)
         '    )
 
+        'panelAgregarGerente.Enabled = True
+    End Sub
+
+    Private Sub Label1_Click(sender As Object, e As EventArgs) Handles lblFOpreaciones.Click
+
+    End Sub
+
+    Private Sub btnAceptarEmrpesa_Click(sender As Object, e As EventArgs) Handles btnAceptarEmrpesa.Click
+        'aqui vamos a guardar toda la informacion en mis objetos
+        Dim res As DialogResult = MessageBox.Show("¿Se creara un departamento de para el nuevo gerente?", "Agregar gerente", MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation)
+
+        If res = DialogResult.Cancel Then
+            Return
+        End If
+
+        Dim nuevaPersona As persona = New persona(
+                txtCURP.Text,
+                txtNomina.Text,
+                txtApellidos.Text,
+                ""
+            )
+
+        Dim domicilioPersona As Domicilio = New Domicilio(
+                txtCalleG.Text,
+                txtColoniaG.Text,
+                txtMunicipioG.Text,
+                Convert.ToDecimal(txtCodigoPostalG.Text),
+               cbEstadoP.Text
+            )
+
+        Gerente_General = New gerenteNomina(
+                txtNoCuenta.Text,
+                Convert.ToDecimal(txtSalarioD.Text),
+                txtNSS.Text,
+                cbBanco.Text,
+                txtNomina.Text,
+                txtRFCgerente.Text,
+                domicilioPersona,
+                nuevaPersona,
+                txtRFC.Text,
+                Convert.ToDecimal(txtSueldoBase.Text),
+                Convert.ToDecimal(txtNivelSalarial.Text)
+            )
+
         Dim conn As connexion = New connexion()
-        conn.insertar_domicilio_fiscal(nuevaEmpresa)
-        'conn.insertar_gerente_nomina(gerente)
+        conn.insertar_persona_gerente(Gerente_General)
+
+        Gerente_General_Nomina.Enabled = True
+        Me.Close()
 
     End Sub
 
@@ -116,7 +130,7 @@
                 txtColonia.Text,
                 txtMunicipio.Text,
                 Convert.ToDecimal(txtCodigoPostal.Text),
-                txtEstado.Text
+                cbEstado.Text
             )
 
         Dim nuevaEmpresa As Empresa = New Empresa(
@@ -132,11 +146,26 @@
         status = conn.insertar_domicilio_fiscal(nuevaEmpresa)
         status = conn.insertar_empresa(nuevaEmpresa)
 
-        If status Then
+        Dim Respuesta As DialogResult = MessageBox.Show("¿Desea agregar gerente?", "Agregar gerente", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+
+        If Respuesta = DialogResult.Yes Then
             panelGerenteNomina.Enabled = True
+            panelAgregarGerente.Enabled = True
         Else
-            panelGerenteNomina.Enabled = False
+            'Me.Close()
         End If
+
+
+
+    End Sub
+
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles btnAgregarEstado.Click
+
+    End Sub
+
+    Private Sub btnCancelarEmpresa_Click(sender As Object, e As EventArgs) Handles btnCancelarEmpresa.Click
+        Gerente_General_Nomina.Enabled = True
+        Me.Close()
 
     End Sub
 End Class

@@ -8,7 +8,17 @@
         cbReporteFiltro.Items.Add("Empresa")
         cbReporteFiltro.Items.Add("Año-Mes")
 
+        empreas()
+
     End Sub
+
+    Private Function empreas()
+
+        Dim conn As connexion = New connexion()
+        ListadoGrid.DataSource = conn.mostrar_empresas()
+
+    End Function
+
     Private Sub ListadoDeEmpresasToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ListadoDeEmpresasToolStripMenuItem.Click
         'Listado se empresas en el grid
         PanelHeadcounterReporte.Hide()

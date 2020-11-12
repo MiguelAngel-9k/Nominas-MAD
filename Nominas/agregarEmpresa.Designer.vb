@@ -23,7 +23,8 @@ Partial Class agregarEmpresa
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.panelDomFiscal = New System.Windows.Forms.Panel()
-        Me.txtEstado = New System.Windows.Forms.TextBox()
+        Me.btnAgregarEstado = New System.Windows.Forms.Button()
+        Me.cbEstado = New System.Windows.Forms.ComboBox()
         Me.txtCodigoPostal = New System.Windows.Forms.TextBox()
         Me.txtMunicipio = New System.Windows.Forms.TextBox()
         Me.txtColonia = New System.Windows.Forms.TextBox()
@@ -41,8 +42,14 @@ Partial Class agregarEmpresa
         Me.txtBanco = New System.Windows.Forms.TextBox()
         Me.lblNombreBanco = New System.Windows.Forms.Label()
         Me.lblAgregarBanco = New System.Windows.Forms.Label()
+        Me.btnAgregarEstadoP = New System.Windows.Forms.Button()
+        Me.cbEstadoP = New System.Windows.Forms.ComboBox()
         Me.btnAceptarInfoP = New System.Windows.Forms.Button()
         Me.panelAgregarGerente = New System.Windows.Forms.Panel()
+        Me.txtNivelSalarial = New System.Windows.Forms.TextBox()
+        Me.lblNivelSalarial = New System.Windows.Forms.Label()
+        Me.txtSueldoBase = New System.Windows.Forms.TextBox()
+        Me.lblSueldoBase = New System.Windows.Forms.Label()
         Me.lblGerente = New System.Windows.Forms.Label()
         Me.lblRFCgerente = New System.Windows.Forms.Label()
         Me.txtSalarioD = New System.Windows.Forms.TextBox()
@@ -57,7 +64,6 @@ Partial Class agregarEmpresa
         Me.lblSalarioD = New System.Windows.Forms.Label()
         Me.cbBanco = New System.Windows.Forms.ComboBox()
         Me.btnAgregarBanco = New System.Windows.Forms.Button()
-        Me.txtEstadoG = New System.Windows.Forms.TextBox()
         Me.lblEstadoGerente = New System.Windows.Forms.Label()
         Me.txtCodigoPostalG = New System.Windows.Forms.TextBox()
         Me.lblDomicilioGerente = New System.Windows.Forms.Label()
@@ -80,6 +86,7 @@ Partial Class agregarEmpresa
         Me.btnAceptarEmrpesa = New System.Windows.Forms.Button()
         Me.btnCancelarEmpresa = New System.Windows.Forms.Button()
         Me.Panel2 = New System.Windows.Forms.Panel()
+        Me.btnAgregarEmpresa = New System.Windows.Forms.Button()
         Me.txtRFC = New System.Windows.Forms.TextBox()
         Me.txtRegistroPatronal = New System.Windows.Forms.TextBox()
         Me.txtRazonSocial = New System.Windows.Forms.TextBox()
@@ -88,7 +95,6 @@ Partial Class agregarEmpresa
         Me.lblRegistroPatronal = New System.Windows.Forms.Label()
         Me.lblRazonSocial = New System.Windows.Forms.Label()
         Me.lblEmpresa = New System.Windows.Forms.Label()
-        Me.btnAgregarEmpresa = New System.Windows.Forms.Button()
         Me.panelDomFiscal.SuspendLayout()
         Me.panelGerenteNomina.SuspendLayout()
         Me.panelBanco.SuspendLayout()
@@ -98,7 +104,8 @@ Partial Class agregarEmpresa
         '
         'panelDomFiscal
         '
-        Me.panelDomFiscal.Controls.Add(Me.txtEstado)
+        Me.panelDomFiscal.Controls.Add(Me.btnAgregarEstado)
+        Me.panelDomFiscal.Controls.Add(Me.cbEstado)
         Me.panelDomFiscal.Controls.Add(Me.txtCodigoPostal)
         Me.panelDomFiscal.Controls.Add(Me.txtMunicipio)
         Me.panelDomFiscal.Controls.Add(Me.txtColonia)
@@ -114,12 +121,23 @@ Partial Class agregarEmpresa
         Me.panelDomFiscal.Size = New System.Drawing.Size(418, 243)
         Me.panelDomFiscal.TabIndex = 0
         '
-        'txtEstado
+        'btnAgregarEstado
         '
-        Me.txtEstado.Location = New System.Drawing.Point(128, 196)
-        Me.txtEstado.Name = "txtEstado"
-        Me.txtEstado.Size = New System.Drawing.Size(245, 20)
-        Me.txtEstado.TabIndex = 11
+        Me.btnAgregarEstado.Location = New System.Drawing.Point(332, 195)
+        Me.btnAgregarEstado.Name = "btnAgregarEstado"
+        Me.btnAgregarEstado.Size = New System.Drawing.Size(66, 23)
+        Me.btnAgregarEstado.TabIndex = 12
+        Me.btnAgregarEstado.Text = "Agregar"
+        Me.btnAgregarEstado.UseVisualStyleBackColor = True
+        '
+        'cbEstado
+        '
+        Me.cbEstado.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cbEstado.FormattingEnabled = True
+        Me.cbEstado.Location = New System.Drawing.Point(128, 195)
+        Me.cbEstado.Name = "cbEstado"
+        Me.cbEstado.Size = New System.Drawing.Size(197, 21)
+        Me.cbEstado.TabIndex = 11
         '
         'txtCodigoPostal
         '
@@ -206,9 +224,10 @@ Partial Class agregarEmpresa
         'panelGerenteNomina
         '
         Me.panelGerenteNomina.Controls.Add(Me.panelBanco)
+        Me.panelGerenteNomina.Controls.Add(Me.btnAgregarEstadoP)
+        Me.panelGerenteNomina.Controls.Add(Me.cbEstadoP)
         Me.panelGerenteNomina.Controls.Add(Me.btnAceptarInfoP)
         Me.panelGerenteNomina.Controls.Add(Me.panelAgregarGerente)
-        Me.panelGerenteNomina.Controls.Add(Me.txtEstadoG)
         Me.panelGerenteNomina.Controls.Add(Me.lblEstadoGerente)
         Me.panelGerenteNomina.Controls.Add(Me.txtCodigoPostalG)
         Me.panelGerenteNomina.Controls.Add(Me.lblDomicilioGerente)
@@ -240,14 +259,14 @@ Partial Class agregarEmpresa
         Me.panelBanco.Controls.Add(Me.txtBanco)
         Me.panelBanco.Controls.Add(Me.lblNombreBanco)
         Me.panelBanco.Controls.Add(Me.lblAgregarBanco)
-        Me.panelBanco.Location = New System.Drawing.Point(41, 367)
+        Me.panelBanco.Location = New System.Drawing.Point(16, 20)
         Me.panelBanco.Name = "panelBanco"
-        Me.panelBanco.Size = New System.Drawing.Size(369, 129)
+        Me.panelBanco.Size = New System.Drawing.Size(353, 129)
         Me.panelBanco.TabIndex = 2
         '
         'btnCancelar
         '
-        Me.btnCancelar.Location = New System.Drawing.Point(282, 98)
+        Me.btnCancelar.Location = New System.Drawing.Point(259, 98)
         Me.btnCancelar.Name = "btnCancelar"
         Me.btnCancelar.Size = New System.Drawing.Size(75, 23)
         Me.btnCancelar.TabIndex = 27
@@ -256,7 +275,7 @@ Partial Class agregarEmpresa
         '
         'btnAceptar
         '
-        Me.btnAceptar.Location = New System.Drawing.Point(194, 98)
+        Me.btnAceptar.Location = New System.Drawing.Point(171, 98)
         Me.btnAceptar.Name = "btnAceptar"
         Me.btnAceptar.Size = New System.Drawing.Size(75, 23)
         Me.btnAceptar.TabIndex = 26
@@ -288,6 +307,24 @@ Partial Class agregarEmpresa
         Me.lblAgregarBanco.TabIndex = 0
         Me.lblAgregarBanco.Text = "Agregar banco"
         '
+        'btnAgregarEstadoP
+        '
+        Me.btnAgregarEstadoP.Location = New System.Drawing.Point(650, 194)
+        Me.btnAgregarEstadoP.Name = "btnAgregarEstadoP"
+        Me.btnAgregarEstadoP.Size = New System.Drawing.Size(75, 23)
+        Me.btnAgregarEstadoP.TabIndex = 26
+        Me.btnAgregarEstadoP.Text = "Agregar"
+        Me.btnAgregarEstadoP.UseVisualStyleBackColor = True
+        '
+        'cbEstadoP
+        '
+        Me.cbEstadoP.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cbEstadoP.FormattingEnabled = True
+        Me.cbEstadoP.Location = New System.Drawing.Point(480, 194)
+        Me.cbEstadoP.Name = "cbEstadoP"
+        Me.cbEstadoP.Size = New System.Drawing.Size(164, 21)
+        Me.cbEstadoP.TabIndex = 25
+        '
         'btnAceptarInfoP
         '
         Me.btnAceptarInfoP.Location = New System.Drawing.Point(64, 242)
@@ -299,6 +336,10 @@ Partial Class agregarEmpresa
         '
         'panelAgregarGerente
         '
+        Me.panelAgregarGerente.Controls.Add(Me.txtNivelSalarial)
+        Me.panelAgregarGerente.Controls.Add(Me.lblNivelSalarial)
+        Me.panelAgregarGerente.Controls.Add(Me.txtSueldoBase)
+        Me.panelAgregarGerente.Controls.Add(Me.lblSueldoBase)
         Me.panelAgregarGerente.Controls.Add(Me.lblGerente)
         Me.panelAgregarGerente.Controls.Add(Me.lblRFCgerente)
         Me.panelAgregarGerente.Controls.Add(Me.txtSalarioD)
@@ -318,6 +359,38 @@ Partial Class agregarEmpresa
         Me.panelAgregarGerente.Name = "panelAgregarGerente"
         Me.panelAgregarGerente.Size = New System.Drawing.Size(694, 199)
         Me.panelAgregarGerente.TabIndex = 24
+        '
+        'txtNivelSalarial
+        '
+        Me.txtNivelSalarial.Location = New System.Drawing.Point(491, 144)
+        Me.txtNivelSalarial.Name = "txtNivelSalarial"
+        Me.txtNivelSalarial.Size = New System.Drawing.Size(144, 20)
+        Me.txtNivelSalarial.TabIndex = 18
+        '
+        'lblNivelSalarial
+        '
+        Me.lblNivelSalarial.AutoSize = True
+        Me.lblNivelSalarial.Location = New System.Drawing.Point(367, 143)
+        Me.lblNivelSalarial.Name = "lblNivelSalarial"
+        Me.lblNivelSalarial.Size = New System.Drawing.Size(68, 13)
+        Me.lblNivelSalarial.TabIndex = 17
+        Me.lblNivelSalarial.Text = "Nivel Salarial"
+        '
+        'txtSueldoBase
+        '
+        Me.txtSueldoBase.Location = New System.Drawing.Point(139, 137)
+        Me.txtSueldoBase.Name = "txtSueldoBase"
+        Me.txtSueldoBase.Size = New System.Drawing.Size(145, 20)
+        Me.txtSueldoBase.TabIndex = 16
+        '
+        'lblSueldoBase
+        '
+        Me.lblSueldoBase.AutoSize = True
+        Me.lblSueldoBase.Location = New System.Drawing.Point(15, 144)
+        Me.lblSueldoBase.Name = "lblSueldoBase"
+        Me.lblSueldoBase.Size = New System.Drawing.Size(67, 13)
+        Me.lblSueldoBase.TabIndex = 15
+        Me.lblSueldoBase.Text = "Sueldo Base"
         '
         'lblGerente
         '
@@ -434,13 +507,6 @@ Partial Class agregarEmpresa
         Me.btnAgregarBanco.Text = "Agregar"
         Me.btnAgregarBanco.UseVisualStyleBackColor = True
         '
-        'txtEstadoG
-        '
-        Me.txtEstadoG.Location = New System.Drawing.Point(480, 187)
-        Me.txtEstadoG.Name = "txtEstadoG"
-        Me.txtEstadoG.Size = New System.Drawing.Size(245, 20)
-        Me.txtEstadoG.TabIndex = 16
-        '
         'lblEstadoGerente
         '
         Me.lblEstadoGerente.AutoSize = True
@@ -498,6 +564,8 @@ Partial Class agregarEmpresa
         '
         'dtpFechaNacimiento
         '
+        Me.dtpFechaNacimiento.CustomFormat = "dd-MM-yyyy"
+        Me.dtpFechaNacimiento.Format = System.Windows.Forms.DateTimePickerFormat.Custom
         Me.dtpFechaNacimiento.Location = New System.Drawing.Point(182, 166)
         Me.dtpFechaNacimiento.Name = "dtpFechaNacimiento"
         Me.dtpFechaNacimiento.Size = New System.Drawing.Size(153, 20)
@@ -630,6 +698,15 @@ Partial Class agregarEmpresa
         Me.Panel2.Size = New System.Drawing.Size(334, 243)
         Me.Panel2.TabIndex = 4
         '
+        'btnAgregarEmpresa
+        '
+        Me.btnAgregarEmpresa.Location = New System.Drawing.Point(232, 203)
+        Me.btnAgregarEmpresa.Name = "btnAgregarEmpresa"
+        Me.btnAgregarEmpresa.Size = New System.Drawing.Size(75, 28)
+        Me.btnAgregarEmpresa.TabIndex = 8
+        Me.btnAgregarEmpresa.Text = "Agregar"
+        Me.btnAgregarEmpresa.UseVisualStyleBackColor = True
+        '
         'txtRFC
         '
         Me.txtRFC.Location = New System.Drawing.Point(125, 129)
@@ -696,15 +773,6 @@ Partial Class agregarEmpresa
         Me.lblEmpresa.TabIndex = 0
         Me.lblEmpresa.Text = "Información de empresa"
         '
-        'btnAgregarEmpresa
-        '
-        Me.btnAgregarEmpresa.Location = New System.Drawing.Point(232, 203)
-        Me.btnAgregarEmpresa.Name = "btnAgregarEmpresa"
-        Me.btnAgregarEmpresa.Size = New System.Drawing.Size(75, 28)
-        Me.btnAgregarEmpresa.TabIndex = 8
-        Me.btnAgregarEmpresa.Text = "Agregar"
-        Me.btnAgregarEmpresa.UseVisualStyleBackColor = True
-        '
         'agregarEmpresa
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -738,7 +806,6 @@ Partial Class agregarEmpresa
     Friend WithEvents lblColonia As Label
     Friend WithEvents lblCalle As Label
     Friend WithEvents lblDomFiscal As Label
-    Friend WithEvents txtEstado As TextBox
     Friend WithEvents txtCodigoPostal As TextBox
     Friend WithEvents txtMunicipio As TextBox
     Friend WithEvents txtColonia As TextBox
@@ -750,7 +817,6 @@ Partial Class agregarEmpresa
     Friend WithEvents txtBanco As TextBox
     Friend WithEvents lblNombreBanco As Label
     Friend WithEvents lblAgregarBanco As Label
-    Friend WithEvents txtEstadoG As TextBox
     Friend WithEvents lblEstadoGerente As Label
     Friend WithEvents txtCodigoPostalG As TextBox
     Friend WithEvents lblDomicilioGerente As Label
@@ -798,4 +864,12 @@ Partial Class agregarEmpresa
     Friend WithEvents txtRegistroPatronal As TextBox
     Friend WithEvents txtRazonSocial As TextBox
     Friend WithEvents btnAgregarEmpresa As Button
+    Friend WithEvents cbEstado As ComboBox
+    Friend WithEvents btnAgregarEstado As Button
+    Friend WithEvents btnAgregarEstadoP As Button
+    Friend WithEvents cbEstadoP As ComboBox
+    Friend WithEvents txtSueldoBase As TextBox
+    Friend WithEvents lblSueldoBase As Label
+    Friend WithEvents txtNivelSalarial As TextBox
+    Friend WithEvents lblNivelSalarial As Label
 End Class
